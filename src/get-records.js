@@ -93,13 +93,25 @@ const getLink = async (action, configuration) => {
   }
 };
 
+const getLinks = async (records, configuration) => {
+  const promises = records.map(async record => {
+    return await getLink(record, configuration);
+  });
+
+  const results = await pSettle(promises);
+  const isFulfilled = results.filter(result => result.isFulfilled).map(result => result.value);
+
+  return [].concat.apply([], isFulfilled);
+};
+
 module.exports = async (brand, configuration) => {
   try {
     const collections = await getCollections(brand, configuration);
     const payloads = await getPayloads(brand, collections, configuration);
     const records = await getRecords(payloads, configuration);
+    const links = await getLinks(records, configuration);
 
-    return records;
+    return links;
   } catch (e) {
     return Promise.reject(e);
   }
