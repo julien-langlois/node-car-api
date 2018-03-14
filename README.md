@@ -6,17 +6,21 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Introduction](#introduction)
-- [Objective - Workshop in 1 sentence](#objective---workshop-in-1-sentence)
-- [How to do that?](#how-to-do-that)
-  - [Stack](#stack)
-- [Just tell me what to do](#just-tell-me-what-to-do)
-- [Examples of steps to do](#examples-of-steps-to-do)
-  - [Populate](#populate)
-  - [List of suv](#list-of-suv)
-- [MVP](#mvp)
-  - [Client-side (bonus)](#client-side-bonus)
-- [Don't forget](#dont-forget)
+- [Description](#description)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Api](#api)
+  - [getBrands(configuration)](#getbrandsconfiguration)
+    - [configuration](#configuration)
+      - [headers](#headers)
+      - [proxy](#proxy)
+  - [getModels(brand, configuration)](#getmodelsbrand-configuration)
+    - [brand](#brand)
+      - [name](#name)
+      - [url](#url)
+    - [configuration](#configuration-1)
+      - [headers](#headers-1)
+      - [proxy](#proxy-1)
 - [Licence](#licence)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->

@@ -2,13 +2,22 @@ const {CARADISIAC, CAR_CONSTRUCTOR} = require('./constants');
 const cheerio = require('cheerio');
 const get = require('./get');
 
+const format = href => {
+  return href.includes('modeles') ? href : `${href}modeles`;
+};
+
+/**
+ * Parse response to get brands
+ * @param  {String} body
+ * @return {Array}
+ */
 const parse = body => {
   const $ = cheerio.load(body);
 
   return $('.constructeurListVisuels li > a').map((i, element) => {
     return {
       'name': $(element).attr('title'),
-      'url': `${CARADISIAC}/${$(element).attr('href')}`
+      'url': `${CARADISIAC}/${format($(element).attr('href'))}`
     };
   }).get();
 };

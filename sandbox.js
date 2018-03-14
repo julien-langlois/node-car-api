@@ -1,9 +1,16 @@
-const {getBrands} = require('./');
+const {getBrands, getRecords} = require('./');
 
-async function sandbox () {
+async function brandsSandbox () {
   const brands = await getBrands();
 
   console.log(brands);
 }
 
-sandbox();
+async function recordsSandbox () {
+  const records = await getRecords({ name: 'Audi',
+    url: 'http://www.caradisiac.com//auto--audi/modeles' },);
+}
+
+//brandsSandbox();
+
+recordsSandbox();
