@@ -32,7 +32,11 @@ Get all technical records related to car specification from [caradisiac.com](htt
 ## Installation
 
 ```sh
-npm install 92bondstreet/node-car-api
+❯ npm install 92bondstreet/node-car-api
+```
+
+```sh
+❯ yarn add 92bondstreet/node-car-api
 ```
 
 ## Usage
