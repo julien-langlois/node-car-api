@@ -64,11 +64,13 @@ Return array of brands
 Type: Object
 
 ##### headers
-Type: Object
+
+Type: Object<br>
 Default: {}
 
 ##### proxy
-Type: String
+
+Type: String<br>
 Default: null
 
 ### getModels(brand, configuration)
@@ -80,11 +82,13 @@ Return array of models for the given brand
 Type: Object
 
 ##### name
-Type: String
+
+Type: String<br>
 Default: {}
 
 ##### url
-Type: String
+
+Type: String<br>
 Default: ''
 
 
@@ -93,11 +97,13 @@ Default: ''
 Type: Object
 
 ##### headers
-Type: Object
+
+Type: Object<br>
 Default: {}
 
 ##### proxy
-Type: String
+
+Type: String<br>
 Default: null
 
 

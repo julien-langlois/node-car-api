@@ -77,13 +77,14 @@ const getRecords = async (payloads, configuration) => {
   return [].concat.apply([], isFulfilled);
 };
 
-const getLink = async (action, configuration) => {
+const getLink = async (brand, action, configuration) => {
   try {
-    const response = await get(Object.assign({}, action, configuration));
+    const response = await get(Object.assign({}, {action}, configuration));
     const $ = cheerio.load(response.text);
 
     return $('#tableListingVersion a').map((i, element) => {
       return {
+        brand,
         'name': $(element).text(),
         'url': `${CARADISIAC}/${$(element).attr('href')}`
       };
@@ -93,9 +94,9 @@ const getLink = async (action, configuration) => {
   }
 };
 
-const getLinks = async (records, configuration) => {
+const getLinks = async (brand, records, configuration) => {
   const promises = records.map(async record => {
-    return await getLink(record, configuration);
+    return await getLink(brand, record, configuration);
   });
 
   const results = await pSettle(promises);
@@ -109,7 +110,7 @@ module.exports = async (brand, configuration) => {
     const collections = await getCollections(brand, configuration);
     const payloads = await getPayloads(brand, collections, configuration);
     const records = await getRecords(payloads, configuration);
-    const links = await getLinks(records, configuration);
+    const links = await getLinks(brand, records, configuration);
 
     return links;
   } catch (e) {
