@@ -86,15 +86,7 @@ module.exports = async (configuration = {}) => {
       return Promise.reject(message);
     }
 
-    console.log(res);
-
-    const {text} = res;
-
-    if (text) {
-      return text;
-    }
-
-    return Promise.reject('NOT_AVAILABLE');
+    return res;
   } catch (err) {
     clearTimeout(timer);
 

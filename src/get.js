@@ -49,8 +49,8 @@ const supererror = error => {
  * @param  {Object} [headers={}]
  * @return {Promise}
  */
-module.exports = async (action, configuration = {}) => {
-  const {headers = {}, proxy} = configuration;
+module.exports = async (configuration = {}) => {
+  const {action, headers = {}, proxy} = configuration;
   const heads = Object.assign({}, HEADERS, {
     'Host': url.parse(action).hostname,
     'Referer': action
@@ -83,13 +83,7 @@ module.exports = async (action, configuration = {}) => {
       return Promise.reject(message);
     }
 
-    const {text} = res;
-
-    if (text) {
-      return text;
-    }
-
-    return Promise.reject('NOT_AVAILABLE');
+    return res;
   } catch (err) {
     clearTimeout(timer);
 

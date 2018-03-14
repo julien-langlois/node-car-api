@@ -1,4 +1,4 @@
-const {getBrands} = require('./');
+const {getBrands} = require('../');
 
 async function sandbox () {
   const brands = await getBrands();
