@@ -32,7 +32,7 @@ Get all technical records related to car specification from [caradisiac.com](htt
 ## Installation
 
 ```sh
-npm install git@github.com:92bondstreet/node-car-api.git
+npm install 92bondstreet/node-car-api
 ```
 
 ## Usage
