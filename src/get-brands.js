@@ -1,10 +1,5 @@
-const {CARADISIAC, CAR_CONSTRUCTOR} = require('./constants');
-const cheerio = require('cheerio');
-const get = require('./get');
-
-const format = href => {
-  return href.includes('modeles') ? href : `${href}modeles`;
-};
+const {CAR_API} = require('./constants');
+const post = require('./post');
 
 /**
  * Parse response to get brands
@@ -12,19 +7,19 @@ const format = href => {
  * @return {Array}
  */
 const parse = body => {
-  const $ = cheerio.load(body);
+  try {
+    const response = JSON.parse(body);
 
-  return $('.constructeurListVisuels li > a').map((i, element) => {
-    return {
-      'name': $(element).attr('title'),
-      'url': `${CARADISIAC}/${format($(element).attr('href'))}`
-    };
-  }).get();
+    return response.hits && response.hits.content || [];
+  } catch (e) {
+    return [];
+  }
 };
 
 module.exports = async configuration => {
   try {
-    const text = await get(CAR_CONSTRUCTOR, configuration);
+    const payload = {'type': 'brands'};
+    const text = await post(Object.assign({}, {'action': CAR_API, payload}, configuration));
 
     if (text) {
       return parse(text);

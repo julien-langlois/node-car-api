@@ -48,11 +48,7 @@ console.log(brands);
 ```js
 const {getModels} = require('node-car-api');
 
-const brand = {
-  'name': 'peugeot'
-  'url': 'http://www.caradisiac.com/auto--peugeot/'
-}
-const models = await getModels(brand);
+const models = await getModels('PEUGEOT');
 
 console.log(models);
 ```
