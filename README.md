@@ -44,17 +44,25 @@ Get all technical records related to car specification from [caradisiac.com](htt
 ```js
 const {getBrands} = require('node-car-api');
 
-const brands = await getBrands();
+async function print () {
+  const brands = await getBrands();
 
-console.log(brands);
+  console.log(brands);
+}
+
+print();
 ```
 
 ```js
 const {getModels} = require('node-car-api');
 
-const models = await getModels('PEUGEOT');
+async function print () {
+  const models = await getModels('PEUGEOT');
 
-console.log(models);
+  console.log(models);
+}
+
+print();
 ```
 
 ## Api
