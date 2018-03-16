@@ -5,6 +5,12 @@ const get = require('./get');
 const pSettle = require('p-settle');
 const post = require('./post');
 
+/**
+ * Fetch list of collections for a given brand
+ * @param  {String}  brand
+ * @param  {Object}  configuration
+ * @return {Promise}               [description]
+ */
 const getCollections = async (brand, configuration) => {
   const payload = {
     'makes': brand,
@@ -16,6 +22,13 @@ const getCollections = async (brand, configuration) => {
   return await api(payload, configuration);
 };
 
+/**
+ * Format payloads to fetch records
+ * @param  {String}  brand
+ * @param  {Array}  collections
+ * @param  {Object}  configuration
+ * @return {Promise}
+ */
 const getPayloads = async (brand, collections, configuration) => {
   const promises = collections.map(async collection => {
     const payload2 = {
@@ -56,6 +69,12 @@ const getPayloads = async (brand, collections, configuration) => {
   return [].concat(...items);
 };
 
+/**
+ * Get record for a given model
+ * @param  {Object}  payload
+ * @param  {Object}  configuration
+ * @return {Promise}
+ */
 const getRecord = async (payload, configuration) => {
   const response = await post(Object.assign({}, {'action': 'http://www.caradisiac.com/fiches-techniques/', payload}, configuration));
 
@@ -65,7 +84,12 @@ const getRecord = async (payload, configuration) => {
 
   return null;
 };
-
+/**
+ * Get all records for a given model
+ * @param  {Object}  payloads
+ * @param  {Object}  configuration
+ * @return {Promise}
+ */
 const getRecords = async (payloads, configuration) => {
   const promises = payloads.map(async payload => {
     return await getRecord(payload, configuration);
@@ -82,13 +106,16 @@ const getLink = async (brand, action, configuration) => {
     const response = await get(Object.assign({}, {action}, configuration));
     const $ = cheerio.load(response.text);
 
-    return $('#tableListingVersion a').map((i, element) => {
+    const finitions = $('#tableListingVersion a').map((i, element) => {
       return {
         brand,
         'name': $(element).text(),
         'url': `${CARADISIAC}/${$(element).attr('href')}`
       };
     }).get();
+
+    // get
+    return finitions.slice(0, 1);
   } catch (e) {
     return [];
   }
