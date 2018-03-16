@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 const get = require('./get');
 const getRecords = require('../src/get-records');
 const pSettle = require('p-settle');
+const uuidv5 = require('uuid/v5');
 
 /**
  * Get required specification
@@ -12,7 +13,8 @@ const pSettle = require('p-settle');
  */
 const getSpec = async (brand, record, configuration) => {
   try {
-    const response = await get(Object.assign({}, {'action': record.url}, configuration));
+    const action = record.url;
+    const response = await get(Object.assign({}, {action}, configuration));
     const $ = cheerio.load(response.text);
 
     const model = $('.ttlNav a > span').text();
@@ -22,6 +24,7 @@ const getSpec = async (brand, record, configuration) => {
       brand,
       model,
       volume,
+      'uuid': uuidv5(action, uuidv5.URL),
       'name': record.name
     };
   } catch (e) {
