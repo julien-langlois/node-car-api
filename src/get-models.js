@@ -3,15 +3,24 @@ const get = require('./get');
 const getRecords = require('../src/get-records');
 const pSettle = require('p-settle');
 
+/**
+ * Get required specification
+ * @param  {String}  brand
+ * @param  {Object}  record
+ * @param  {Object}  configuration
+ * @return {Promise}
+ */
 const getSpec = async (brand, record, configuration) => {
   try {
     const response = await get(Object.assign({}, {'action': record.url}, configuration));
     const $ = cheerio.load(response.text);
 
-    const volume = $('.caract02').text().split('/').map(item => item.replace(/\D/g, ''));
+    const model = $('.ttlNav a > span').text();
+    const [volume] = $('.caract02').text().split('/').map(item => item.replace(/\D/g, ''));
 
     return {
       brand,
+      model,
       volume,
       'name': record.name
     };

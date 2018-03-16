@@ -32,7 +32,7 @@ Get all technical records related to car specification from [caradisiac.com](htt
 ## Installation
 
 ```sh
-❯ npm install 92bondstreet/node-car-api
+❯ npm install https://github.com/92bondstreet/node-car-api.git
 ```
 
 ```sh
@@ -93,7 +93,7 @@ Default: {}
 ##### url
 
 Type: String<br>
-Default: ''
+Default: null
 
 
 #### configuration
