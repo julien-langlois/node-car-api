@@ -19,9 +19,11 @@ const getSpec = async (brand, record, configuration) => {
 
     const model = $('.ttlNav a > span').text();
     const [volume] = $('.caract02').text().split('/').map(item => item.replace(/\D/g, ''));
+    const image = $('.ficheTech img.img-responsive').attr('src');
 
     return {
       brand,
+      image,
       model,
       volume,
       'uuid': uuidv5(action, uuidv5.URL),
