@@ -1,9 +1,14 @@
-const api = require('./api');
+const {search} = require('./api');
 
+/**
+ * Get list of brands
+ * @param  {Object}
+ * @return {Promise}
+ */
 module.exports = async configuration => {
   try {
     const payload = {'type': 'brands'};
-    const brands = await api(payload, configuration);
+    const brands = await search(payload, configuration);
 
     if (brands.length) {
       return brands;

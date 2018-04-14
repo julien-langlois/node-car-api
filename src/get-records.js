@@ -1,9 +1,8 @@
-const api = require('./api');
+const {search} = require('./api');
 const cheerio = require('cheerio');
 const {CARADISIAC} = require('./constants');
-const get = require('./get');
+const {get, post} = require('./api');
 const pSettle = require('p-settle');
-const post = require('./post');
 
 /**
  * Fetch list of collections for a given brand
@@ -19,7 +18,7 @@ const getCollections = async (brand, configuration) => {
     'type': 'models'
   };
 
-  return await api(payload, configuration);
+  return await search(payload, configuration);
 };
 
 /**
@@ -37,7 +36,7 @@ const getPayloads = async (brand, collections, configuration) => {
       'year': '2018',
       'type': 'modelscomm'
     };
-    const models = await api(payload2, configuration);
+    const models = await search(payload2, configuration);
 
     return {collection, models};
   });

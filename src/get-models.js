@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-const get = require('./get');
+const {get} = require('./api');
 const getRecords = require('../src/get-records');
 const pSettle = require('p-settle');
 const uuidv5 = require('uuid/v5');
