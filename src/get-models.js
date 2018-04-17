@@ -60,7 +60,7 @@ const getSpec = async (brand, record, configuration) => {
     const $ = cheerio.load(response.text);
 
     const model = $('.ttlNav a > span').text();
-    const [volume] = $('.caract02').text().split('/').map(item => item.replace(/\D/g, ''));
+    const [volume] = $('.caract02').text().split('/').map(item => parseInt(item.replace(/\D/g, ''), 10));
     const image = $('.ficheTech img.img-responsive').attr('src');
     const description = getTcVars(response.text);
 
@@ -70,8 +70,9 @@ const getSpec = async (brand, record, configuration) => {
       image,
       model,
       volume,
-      'uuid': uuidv5(action, uuidv5.URL),
-      'name': record.name
+      'name': record.name,
+      'url': action,
+      'uuid': uuidv5(action, uuidv5.URL)
     };
   } catch (e) {
     return [];
