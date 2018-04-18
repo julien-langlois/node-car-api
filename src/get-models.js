@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
 const {get, findVariable} = require('./api');
 const getRecords = require('../src/get-records');
+const getReview = require('../src/get-review');
 const pSettle = require('p-settle');
 const uuidv5 = require('uuid/v5');
 
@@ -63,12 +64,15 @@ const getSpec = async (brand, record, configuration) => {
     const [volume] = $('.caract02').text().split('/').map(item => parseInt(item.replace(/\D/g, ''), 10));
     const image = $('.ficheTech img.img-responsive').attr('src');
     const description = getTcVars(response.text);
+    const slug = $('ul.navItem > li.first a').attr('href');
+    const review = await getReview(slug);
 
     return {
       brand,
       description,
       image,
       model,
+      review,
       volume,
       'name': record.name,
       'url': action,
