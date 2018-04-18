@@ -32,7 +32,7 @@ const getPayloads = async (brand, collections, configuration) => {
   const promises = collections.map(async collection => {
     const payload2 = {
       'makes': brand,
-      'models': collection,
+      'models': encodeURIComponent(collection),
       'year': '2018',
       'type': 'modelscomm'
     };
