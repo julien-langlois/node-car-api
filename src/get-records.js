@@ -1,6 +1,6 @@
 const {search} = require('./api');
 const cheerio = require('cheerio');
-const {CARADISIAC} = require('./constants');
+const {CARADISIAC, YEARS} = require('./constants');
 const {get, post} = require('./api');
 const pSettle = require('p-settle');
 
@@ -113,8 +113,14 @@ const getLink = async (brand, action, configuration) => {
       };
     }).get();
 
+    // first with get only link that match the wanted years
+    // to avoid old cars models
+    const candidates = YEARS
+      .map(year => finitions.find(item => item.url.includes(year)))
+      .filter(candidate => candidate);
+
     // get
-    return finitions.slice(0, 1);
+    return candidates.slice(0, 1);
   } catch (e) {
     return [];
   }
@@ -126,7 +132,10 @@ const getLinks = async (brand, records, configuration) => {
   });
 
   const results = await pSettle(promises);
-  const isFulfilled = results.filter(result => result.isFulfilled).map(result => result.value);
+  const isFulfilled = results
+    .filter(result => result.isFulfilled)
+    .map(result => result.value)
+    .filter(result => result);
 
   return [].concat.apply([], isFulfilled);
 };
