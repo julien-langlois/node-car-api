@@ -1,5 +1,5 @@
+const agent = require('xcii-agent');
 const cheerio = require('cheerio');
-const {get, findVariable} = require('./api');
 const getRecords = require('../src/get-records');
 const getReview = require('../src/get-review');
 const pSettle = require('p-settle');
@@ -28,7 +28,7 @@ const getTcVars = body => {
         //1. replace all ' with "
         //2 .add "" for some values
         //3. remove last comma
-        const item = findVariable('var tc_vars =', text)
+        const item = agent.find('var tc_vars =', text)
           .replace(/'/g, '"')
           .replace(/: ([^"]*),/g, ':\"$1\",')
           .replace(/,(?=[^,]*$)/, '');
@@ -54,10 +54,10 @@ const getTcVars = body => {
  * @param  {Object}  configuration
  * @return {Promise}
  */
-const getSpec = async (brand, record, configuration) => {
+const getSpec = async (brand, record, configuration = {}) => {
   try {
-    const action = record.url;
-    const response = await get(Object.assign({}, {action}, configuration));
+    const url = record.url;
+    const response = await agent.get(Object.assign({}, {url}, configuration));
     const $ = cheerio.load(response.text);
 
     const model = $('.ttlNav a > span').text();
@@ -73,10 +73,10 @@ const getSpec = async (brand, record, configuration) => {
       image,
       model,
       review,
+      url,
       volume,
       'name': record.name,
-      'url': action,
-      'uuid': uuidv5(action, uuidv5.URL)
+      'uuid': uuidv5(url, uuidv5.URL)
     };
   } catch (e) {
     return [];
@@ -92,6 +92,9 @@ module.exports = async (brand, configuration) => {
 
     const results = await pSettle(promises);
     const isFulfilled = results.filter(result => result.isFulfilled).map(result => result.value);
+
+    console.log(isFulfilled.length);
+    console.log(records.length);
 
     return [].concat.apply([], isFulfilled);
   } catch (e) {

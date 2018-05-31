@@ -1,8 +1,9 @@
-const {search} = require('./api');
+const agent = require('xcii-agent');
 const cheerio = require('cheerio');
-const {CARADISIAC, YEARS} = require('./constants');
-const {get, post} = require('./api');
+const {CARADISIAC, HEADERS, YEARS} = require('./constants');
 const pSettle = require('p-settle');
+const {search} = require('./api');
+const url = require('url');
 
 /**
  * Fetch list of collections for a given brand
@@ -74,11 +75,18 @@ const getPayloads = async (brand, collections, configuration) => {
  * @param  {Object}  configuration
  * @return {Promise}
  */
-const getRecord = async (payload, configuration) => {
-  const response = await post(Object.assign({}, {'action': 'http://www.caradisiac.com/fiches-techniques/', payload}, configuration));
+const getRecord = async (payload, configuration = {}) => {
+  const {headers = {}} = configuration;
+  const heads = Object.assign({}, HEADERS, {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'Host': url.parse('http://www.caradisiac.com/fiches-techniques/').hostname,
+    'Referer': 'http://www.caradisiac.com/fiches-techniques/'
+  }, headers);
+
+  const response = await agent.post(Object.assign({}, {'url': 'http://www.caradisiac.com/fiches-techniques/', payload}, configuration), heads);
 
   if (response && response.redirects) {
-    return response.redirects[0];
+    return response.redirects.find(item => item.includes('modele'));
   }
 
   return null;
@@ -100,11 +108,15 @@ const getRecords = async (payloads, configuration) => {
   return [].concat.apply([], isFulfilled);
 };
 
-const getLink = async (brand, action, configuration) => {
+const getLink = async (brand, action, configuration = {}) => {
   try {
-    const response = await get(Object.assign({}, {action}, configuration));
+    const {headers = {}} = configuration;
+    const heads = Object.assign({}, HEADERS, {
+      'Host': url.parse(action).hostname,
+      'Referer': action
+    }, headers);
+    const response = await agent.get(Object.assign({}, {'url': action}, configuration), heads);
     const $ = cheerio.load(response.text);
-
     const finitions = $('#tableListingVersion a').map((i, element) => {
       return {
         brand,
