@@ -4,8 +4,9 @@ const cheerio = require('cheerio');
 //http://www.caradisiac.com/modele--peugeot-2008/avis
 
 module.exports = async (model, configuration = {}) => {
+  const url = `http://www.caradisiac.com/${model}/avis`;
+
   try {
-    const url = `http://www.caradisiac.com/${model}/avis`;
     const response = await agent.get(Object.assign({}, {url}, configuration));
     const $ = cheerio.load(response.text);
     const rating = parseFloat($('div [itemprop="aggregateRating"] span[itemprop="ratingValue"]').text());
@@ -20,7 +21,7 @@ module.exports = async (model, configuration = {}) => {
       rating
     };
   } catch (e) {
-    console.log(`model - ${agent.format.error(e)}`);
+    console.log(`${url} - ${agent.format.error(e)}`);
     return {};
   }
 };
