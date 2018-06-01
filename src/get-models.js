@@ -93,8 +93,7 @@ module.exports = async (brand, configuration) => {
     const results = await pSettle(promises);
     const isFulfilled = results.filter(result => result.isFulfilled).map(result => result.value);
 
-    console.log(isFulfilled.length);
-    console.log(records.length);
+    console.log(`${isFulfilled.length} fulfilled models on ${records.length}`);
 
     return [].concat.apply([], isFulfilled);
   } catch (e) {
