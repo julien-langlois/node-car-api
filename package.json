@@ -22,7 +22,7 @@
     "random-useragent": "^0.3.1",
     "superagent": "^3.8.3",
     "superagent-proxy": "^1.0.3",
-    "uuid": "^3.2.1",
+    "uuid": "^3.4.0",
     "xcii-agent": "git+ssh://git@github.com/92bondstreet/xcii-agent.git"
   }
 }
