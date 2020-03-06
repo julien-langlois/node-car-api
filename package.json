@@ -18,7 +18,7 @@
   "homepage": "https://github.com/92bondstreet/node-car-api#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "p-settle": "^2.1.0",
+    "p-settle": "^4.0.0",
     "random-useragent": "^0.3.1",
     "superagent": "^3.8.3",
     "superagent-proxy": "^1.0.3",
