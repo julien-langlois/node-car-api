@@ -20,7 +20,7 @@
     "cheerio": "^1.0.0-rc.2",
     "p-settle": "^2.1.0",
     "random-useragent": "^0.3.1",
-    "superagent": "^3.8.3",
+    "superagent": "^5.3.1",
     "superagent-proxy": "^1.0.3",
     "uuid": "^3.2.1",
     "xcii-agent": "git+ssh://git@github.com/92bondstreet/xcii-agent.git"
